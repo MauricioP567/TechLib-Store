@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>TechLib Store - Admin</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <h1>🛒 TechLib Store <span style="font-size:1rem; color:white;">· Panel de Control</span></h1>
+  </header>
+
+  <div class="container">
+    <!-- Formulario para agregar -->
+    <h2>Agregar Nuevo Producto</h2>
+    <form id="productoForm" class="form-container">
+      <input type="text" id="nombre" placeholder="Nombre del producto" required>
+      <select id="categoria" required>
+        <option value="electronico">Electrónico</option>
+        <option value="libro">Libro</option>
+      </select>
+      <input type="number" id="precio" placeholder="Precio (S/)" step="0.01" required>
+      <input type="number" id="stock" placeholder="Stock" required>
+      <button type="submit">+ Guardar Producto</button>
+    </form>
+
+    <!-- Tabla de productos -->
+    <h2>Inventario Actual</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tipo</th>
+          <th>Nombre</th>
+          <th>Precio</th>
+          <th>Stock</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="tablaProductos">
+        <!-- Aquí JavaScript inyectará los productos -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    // Cargar productos al abrir la página
+    async function cargarProductos() {
+      const res = await fetch('/api/productos');
+      const productos = await res.json();
+      const tbody = document.getElementById('tablaProductos');
+      tbody.innerHTML = '';
+      
+      if(productos.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">No hay productos aún</td></tr>';
+        return;
+      }
+
+      productos.forEach(p => {
+        tbody.innerHTML += `
+          <tr>
+            <td>${p.id}</td>
+            <td><span class="badge ${p.categoria}">${p.categoria.toUpperCase()}</span></td>
+            <td>${p.nombre}</td>
+            <td>S/ ${parseFloat(p.precio).toFixed(2)}</td>
+            <td>${p.stock}</td>
+            <td><button class="btn-delete" onclick="eliminarProducto(${p.id})">Eliminar</button></td>
+          </tr>
+        `;
+      });
+    }
+
+    // Enviar formulario (POST)
+    document.getElementById('productoForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const nuevoProducto = {
+        nombre: document.getElementById('nombre').value,
+        categoria: document.getElementById('categoria').value,
+        precio: parseFloat(document.getElementById('precio').value),
+        stock: parseInt(document.getElementById('stock').value)
+      };
+
+      await fetch('/api/productos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(nuevoProducto)
+      });
+
+      document.getElementById('productoForm').reset();
+      cargarProductos(); // Recargar la tabla
+    });
+
+    // Eliminar producto (DELETE)
+    async function eliminarProducto(id) {
+      if(confirm('¿Seguro que deseas eliminar este producto?')) {
+        await fetch(`/api/productos/${id}`, { method: 'DELETE' });
+        cargarProductos();
+      }
+    }
+
+    // Ejecutar al cargar
+    cargarProductos();
+  </script>
+</body>
+</html>
