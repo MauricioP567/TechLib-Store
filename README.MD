@@ -2,7 +2,7 @@
 
 **Asignatura:** Desarrollo de Aplicaciones Web (IS093A)  
 **Semana:** 10  
-**Alumno:** [Escribe tu Nombre Completo Aquí]  
+**Alumno:** Mauricio [Escribe tus apellidos aquí]  
 
 ##  Descripción del Proyecto
 TechLib Store es el backend de una tienda híbrida (electrónicos y libros), desarrollado con **Node.js**, **Express** y **MySQL**. Implementa una arquitectura MVC, un pool de conexiones asíncrono, y una API RESTful completa. Adicionalmente, incluye una interfaz web (frontend) con modo oscuro que consume la API, demostrando el flujo de datos desde el cliente hasta la base de datos.
@@ -23,33 +23,32 @@ TechLib Store es el backend de una tienda híbrida (electrónicos y libros), des
 A continuación se evidencian las carpetas del proyecto (arquitectura MVC), el código del controlador que maneja los endpoints, y el archivo de configuración con el pool de conexiones.
 
 **Estructura de carpetas en VS Code:**
-![Estructura del proyecto]()
+![Estructura del proyecto](Screenshots/Estructura_del_proyecto.png)
 
-
-**Configuración de la base de datos (Pool de conexiones en `server.js` o `db.js`):**
-![Configuración BD]()
+**Configuración de la base de datos (Pool de conexiones en `server.js`):**
+![Configuración BD](Screenshots/Configuracion_BD.png)
 
 **Código del controlador (Endpoints y queries a MySQL):**
-![Código del controlador]()
+![Código del controlador](Screenshots/Codigo_del_controlador.png)
 
 ### 2. Pruebas en Postman/Insomnia (Status Codes)
 Se validó el correcto funcionamiento de la API RESTful mediante herramientas de pruebas HTTP, comprobando las respuestas exitosas y el manejo de errores.
 
 **Respuesta Exitosa (200 OK) - Listado de productos:**
 *Petición GET a `/api/productos`.*
-![Postman GET 200]()
+![Postman GET 200](Screenshots/Postman_200.png)
 
 **Respuesta Exitosa (201 Created) - Creación de producto:**
 *Petición POST a `/api/productos` con body en JSON.*
-![Postman POST 201]()
+![Postman POST 201](Screenshots/Postman_201.png)
 
 **Respuesta de Error (404 Not Found) - Producto inexistente:**
 *Petición GET a `/api/productos/999`.*
-![Postman GET 404]()
+![Postman GET 404](Screenshots/Postman_404.png)
 
 **Respuesta de Error (400 Bad Request) - Validación de datos:**
 *Petición POST enviando un precio negativo o campos vacíos.*
-![Postman POST 400]()
+![Postman POST 400](Screenshots/Postman_400.png)
 
 ### 3. Enlace del Repositorio GitHub
 Puedes acceder al código fuente completo del proyecto en el siguiente enlace:
@@ -67,6 +66,15 @@ Puedes acceder al código fuente completo del proyecto en el siguiente enlace:
 | **POST** | `/api/productos` | Crea un nuevo producto | 201 Created, 400 Bad Request |
 | **PUT** | `/api/productos/:id` | Actualiza un producto existente | 200 OK, 404 Not Found |
 | **DELETE** | `/api/productos/:id` | Eliminación lógica de un producto | 200 OK, 404 Not Found |
+
+##  Interfaz Gráfica (Frontend)
+Para darle un enfoque aplicado al mundo real, se desarrolló un panel de administración con EJS y CSS que consume la API.
+
+**Vista de la aplicación web:**
+![Aplicación Web](Screenshots/Aplicacion_web.png)
+
+**Vista del registro dentro de la aplicación web:**
+![Registro de producto](Screenshots/Registro_de_producto.png)
 
 ##  Instalación y Ejecución Local
 1. Clonar el repositorio.
